@@ -5,12 +5,7 @@ export class TodoList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            yapilacaklar: [
-                {yapildiMi: false, baslik: "React Çalış"},
-                {yapildiMi: false, baslik: "Konsere git"},
-                {yapildiMi: true, baslik: "Kahve İç"},
-                {yapildiMi: true, baslik: "İlacını Al"}
-            ]
+            yapilacaklar: oku()
         };
         this.ekle = this.ekle.bind(this);
     }
@@ -50,6 +45,7 @@ export class TodoList extends Component {
     }
 
   render() {
+    kaydet(this.state.yapilacaklar);
     return (
       <div className='TodoList'>
         <h1>Yapacaklarım</h1>
@@ -74,9 +70,27 @@ export class TodoList extends Component {
   }
 }
 
+function kaydet(nesne) {
+  localStorage["veri"] = JSON.stringify(nesne);
+}
+
+function oku() {
+  const str = localStorage["veri"];
+  return str ? JSON.parse(str) : ornekVeriler();
+}
+
 function sirala(liste) {
   liste.sort((a, b) => a.yapildiMi - b.yapildiMi);
   return liste;
+}
+
+function ornekVeriler() {
+  return [
+    {yapildiMi: false, baslik: "React Çalış"},
+    {yapildiMi: false, baslik: "Konsere git"},
+    {yapildiMi: true, baslik: "Kahve İç"},
+    {yapildiMi: true, baslik: "İlacını Al"}
+];
 }
 
 export default TodoList;
